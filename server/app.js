@@ -4,17 +4,13 @@ const dotenv = require("dotenv");
 
 const app = express();
 
+//.env config
 dotenv.config({ path: "./config.env" });
+require("./db/connection");
 
-const DB = process.env.DATABASE;
 const PORT = process.env.PORT;
 
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log("connection successful");
-  })
-  .catch((err) => console.log("no connection"));
+const User = require("./model/userschema");
 
 //Middleware
 
@@ -22,6 +18,8 @@ const middleware = (req, res, next) => {
   console.log("hello from middleware");
   next();
 };
+
+//Routing
 
 app.get("/", (req, res) => {
   res.send("hello from the server");
