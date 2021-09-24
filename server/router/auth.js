@@ -8,6 +8,8 @@ router.get("/", (req, res) => {
   res.send("hello from the server");
 });
 
+// -----Async & await ----
+
 router.post("/register", async (req, res) => {
   const { name, email, phone, work, password, cpassword } = req.body;
 
@@ -17,7 +19,7 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    const userExist = User.findOne({ email: email });
+    const userExist = await User.findOne({ email: email });
     if (userExist) {
       return res.status(422).json({ error: "user already exists" });
     }
@@ -37,9 +39,10 @@ router.post("/register", async (req, res) => {
   }
 
   console.log(req.body);
-  //   res.json({ message: req.body });
+  res.json({ message: req.body });
 });
 
+// //----Promises ---
 // router.post("/register", (req, res) => {
 //   const { name, email, phone, work, password, cpassword } = req.body;
 
@@ -47,13 +50,13 @@ router.post("/register", async (req, res) => {
 //   if (!name || !email || !phone || !work || !password || !cpassword) {
 //     return res.status(422).json({ error: "all the field are required" });
 //   }
-//   // Promises
+
 //   User.findOne({ email: email })
 //     .then((userExist) => {
 //       if (userExist) {
 //         return res.status(422).json({ error: "user already exists" });
 //       }
-//       // If key and value are samet than
+//       // If key and value are same than
 //       const user = new User({ name, email, phone, work, password, cpassword });
 //       user
 //         .save()
