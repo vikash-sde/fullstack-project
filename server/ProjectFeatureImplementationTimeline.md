@@ -12,6 +12,6 @@
 
 #Login route with form validation
 
-#User Password hashing - bcrypt
+#User Password hashing and validation during login - bcrypt
 
-#Jwt auth
+#User Authentication - Jwt authentication token

@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 require("../db/connection");
 const User = require("../model/userschema");
+const bcrypt = require("bcrypt");
 
 router.get("/", (req, res) => {
   res.send("hello from the server");
@@ -22,23 +23,25 @@ router.post("/register", async (req, res) => {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
       return res.status(422).json({ error: "user already exists" });
+    } else if (password != cpassword) {
+      return res.status(422).json({ error: "password are not matching" });
+    } else {
+      const user = new User({ name, email, phone, work, password, cpassword });
+      const userRegister = await user.save();
+      res.status(201).json({ success: "user created successfully" });
     }
     // If key and value are samet than
-    const user = new User({ name, email, phone, work, password, cpassword });
-    const userRegister = await user.save();
+
+    // Passwording Hashing
+    //Pre & post
+
     // await user.save();
     // res.status(201).json({ success: "user created successfully" });
-
-    if (userRegister) {
-      res.status(201).json({ success: "user created successfully" });
-    } else {
-      res.status(500).json({ error: "registration failed" });
-    }
   } catch (err) {
     console.log(error);
   }
 
-  console.log(req.body);
+  // console.log(req.body);
   res.json({ message: req.body });
 });
 
@@ -87,10 +90,17 @@ router.post("/signin", async (req, res) => {
 
     const userlogin = await User.findOne({ email: email });
     console.log(userlogin);
-    if (!userlogin) {
-      res.status(400).json([{ message: "user not found" }]);
+
+    if (userlogin) {
+      const isMatch = await bcrypt.compare(password, userlogin.password);
+
+      if (!isMatch) {
+        res.status(400).json([{ message: "user pass not found" }]);
+      } else {
+        res.json([{ message: "user Sign in successful" }]);
+      }
     } else {
-      res.json([{ message: "user Sign in successful" }]);
+      res.status(400).json([{ message: "user email not found" }]);
     }
   } catch (err) {
     console.log(err);
