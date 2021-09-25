@@ -1,5 +1,7 @@
 @ProjectFeatureImplementationTimeline------
 
+----@BACKEND
+
 #Define the basic routing
 
 #Middleware
@@ -15,3 +17,8 @@
 #User Password hashing and validation during login - bcrypt
 
 #User Authentication - Jwt authentication token
+Generate JWT Token and Stored It in Db
+
+    How to stored the token in cookies
+
+    Get token from cookies and  verify the user

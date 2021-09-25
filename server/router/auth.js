@@ -4,6 +4,7 @@ const router = express.Router();
 require("../db/connection");
 const User = require("../model/userschema");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.get("/", (req, res) => {
   res.send("hello from the server");
@@ -93,6 +94,12 @@ router.post("/signin", async (req, res) => {
 
     if (userlogin) {
       const isMatch = await bcrypt.compare(password, userlogin.password);
+      const generatedToken = await userlogin.generateAuthToken();
+      console.log(generatedToken);
+      res.cookie("jwtToken", generatedToken, {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly: true,
+      });
 
       if (!isMatch) {
         res.status(400).json([{ message: "user pass not found" }]);

@@ -25,6 +25,11 @@ const middleware = (req, res, next) => {
   next();
 };
 
+// app.get("/contact", (req, res) => {
+//   res.cookie("jwtToken", "token");
+//   res.send("hello from the server");
+// });
+
 app.listen(PORT, () => {
   console.log("listening at " + PORT);
 });
