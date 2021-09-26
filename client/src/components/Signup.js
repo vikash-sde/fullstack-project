@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import signup from "../images/signup.svg";
 
-const Signin = () => {
+const Signup = () => {
   return (
     <>
       <div class="container mt-5 mb-5 d-flex justify-content-center">
@@ -115,4 +116,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Signup;
